@@ -7,9 +7,9 @@ import Navbar from "./Navbar";
 const AdminLayout: React.FC = () => {
   return (
     <div className="min-h-screen bg-background">
-      <Topbar />
-      <main className="p-4 lg:p-6 flex flex-col ">
+      <main className="p-4 lg:p-6 flex flex-col pt-20 ">
         <Outlet />
+        <div className="mb-20"></div>
       </main>
       <Navbar />
     </div>
