@@ -3,30 +3,13 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
+  color-scheme: light dark;
 }
 
 html,
 body,
 #root {
   height: 100%;
-}
-
-body {
-  background: linear-gradient(
-      0deg,
-      rgba(0, 0, 0, 0.7) 0%,
-      rgba(0, 0, 0, 0.7) 100%
-    ),
-    linear-gradient(
-      113deg,
-      #082f7a 0%,
-      #0a1b4c 24.88%,
-      #0b1641 49.76%,
-      #0c1741 74.63%,
-      #06113b 99.51%
-    ),
-    #fff;
 }
 
 * {
