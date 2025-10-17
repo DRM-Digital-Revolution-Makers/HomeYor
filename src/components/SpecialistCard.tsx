@@ -139,7 +139,7 @@ const SpecialistCard: React.FC = () => {
     },
   ];
   return (
-    <div className="bg-[#fff] min-w-[300px] max-w-md w-full p-4 rounded-[30px] gap-4 mt-4">
+    <div className="bg-[#fff] w-full p-4 rounded-[30px] gap-4 mt-4">
       <div className="flex justify-between items-center mb-4">
         <h2 className=" font-sf text-lg text-[#000] font-[510] ">
           Вызвать специалиста
@@ -174,7 +174,7 @@ const SpecialistCard: React.FC = () => {
       <div className="grid grid-cols-12 gap-3 mt-4">
         {data.map((item) => {
           return (
-            <div className="w-full text-center  col-span-4">
+            <div className="w-full text-center col-span-6 md:col-span-4">
               <div className=" flex flex-col justify-center items-center bg-[#EEE] h-[77px] p-3 rounded-[14px]">
                 {item.img}
               </div>

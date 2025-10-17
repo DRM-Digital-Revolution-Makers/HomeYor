@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, Link } from "@tanstack/react-router";
 import { supabase } from "@/lib/supabaseClient";
 import { LeftArrow } from "@/assets/icons";
 
@@ -7,6 +7,7 @@ export default function RegisterInfo() {
   const navigate = useNavigate();
   const [first, setFirst] = useState("");
   const [last, setLast] = useState("");
+  const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -24,9 +25,26 @@ export default function RegisterInfo() {
     setLoading(true);
     try {
       const { error } = await supabase.auth.updateUser({
-        data: { first_name: first.trim(), last_name: last.trim() },
+        data: { first_name: first.trim(), last_name: last.trim(), email: email.trim() },
       });
       if (error) throw error;
+
+      // Batch save to 'profiles' table
+      try {
+        const { data: userData } = await supabase.auth.getUser();
+        const uid = userData.user?.id;
+        if (uid) {
+          await supabase.from("profiles").upsert({
+            id: uid,
+            first_name: first.trim(),
+            last_name: last.trim(),
+            email: email.trim(),
+          });
+        }
+      } catch (e: any) {
+        console.warn("Не удалось записать профиль в profiles:", e?.message || e);
+      }
+
       navigate({ to: "/" });
     } catch (err: any) {
       setError(err.message || "Не удалось сохранить данные");
@@ -66,10 +84,25 @@ export default function RegisterInfo() {
             onChange={(e) => setLast(e.target.value)}
           />
         </div>
+        <div className="mb-3">
+          <label className="text-sm text-[#000] font-sf">Email (для входа)</label>
+          <input
+            type="email"
+            autoComplete="email"
+            className="mt-2 w-full bg-[#fff] border border-[#E5E7EB] rounded-[14px] px-3 py-3 text-base"
+            placeholder="email@example.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
 
         <div className="text-[#7A7A7A] text-[12px]">
-          Нажимая <span className="text-[#1E90FF]">«Продолжить»</span> вы соглашаетесь с тем что мы сливаем
-          <span className="text-[#1E90FF]"> ваши личные данные</span>
+          Нажимая <span className="text-[#1E90FF]">«Продолжить»</span>, вы соглашаетесь с условиями
+          <span className="text-[#1E90FF]"> Пользовательского соглашения</span> и
+          <span className="text-[#1E90FF]"> Политики конфиденциальности</span>.
+        </div>
+        <div className="text-center mt-3">
+          <Link to="/auth/login" className="text-[#1E90FF] font-sf text-[14px]">Уже есть аккаунт? Войти</Link>
         </div>
         {error && <div className="text-red-500 text-sm mt-2">{error}</div>}
 

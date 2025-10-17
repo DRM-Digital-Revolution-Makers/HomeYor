@@ -8,10 +8,14 @@ const Chatbot = React.lazy(() => import("@/pages/chatbot/Chatbot"));
 const Initiatives = React.lazy(
   () => import("@/pages/integrations/Initiatives")
 );
-// Новые страницы аутентификации (SMS)
+// New authentication pages (SMS)
 const PhoneEnter = React.lazy(() => import("@/pages/auth/PhoneEnter"));
 const CodeVerify = React.lazy(() => import("@/pages/auth/CodeVerify"));
 const RegisterInfo = React.lazy(() => import("@/pages/auth/RegisterInfo"));
+// Basic authentication (email/password)
+const Login = React.lazy(() => import("@/pages/auth/Login"));
+// Add email-based signup
+const Signup = React.lazy(() => import("@/pages/auth/Signup"));
 
 const rootRoute = new RootRoute();
 
@@ -61,7 +65,7 @@ const InitiativesRoute = new Route({
   ),
 });
 
-// Новые маршруты аутентификации
+// Authentication routes
 const phoneRoute = new Route({
   getParentRoute: () => rootRoute,
   path: "/auth/phone",
@@ -92,6 +96,27 @@ const registerRoute = new Route({
   ),
 });
 
+const loginRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: "/auth/login",
+  component: () => (
+    <React.Suspense fallback={<div className="p-6">Загрузка…</div>}>
+      <Login />
+    </React.Suspense>
+  ),
+});
+
+// New route for email signup
+const signupRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: "/auth/signup",
+  component: () => (
+    <React.Suspense fallback={<div className="p-6">Загрузка…</div>}>
+      <Signup />
+    </React.Suspense>
+  ),
+});
+
 const routeTree = rootRoute.addChildren([
   adminLayoutRoute.addChildren([
     MainPageRoute,
@@ -102,6 +127,8 @@ const routeTree = rootRoute.addChildren([
   phoneRoute,
   verifyRoute,
   registerRoute,
+  loginRoute,
+  signupRoute,
 ]);
 
 export const router = new Router({ routeTree });

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, Link } from "@tanstack/react-router";
 import { supabase } from "@/lib/supabaseClient";
 import VectorLogo from "@/assets/logo/Vector.svg";
 
@@ -9,11 +9,18 @@ export default function PhoneEnter() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Normalize input to E.164 (keep digits only, prepend '+')
+  const toE164 = (raw: string) => {
+    const digits = raw.replace(/\D/g, "");
+    return digits ? "+" + digits : "+";
+  };
+  const isValidE164 = (p: string) => /^\+[1-9]\d{7,14}$/.test(p);
+
   const requestOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    if (!/^\+\d{7,15}$/.test(phone)) {
-      setError("Введите номер в формате +998XXXXXXXXX");
+    if (!isValidE164(phone)) {
+      setError("Введите номер в формате E.164, например +998901234567");
       return;
     }
     if (!supabase) {
@@ -29,7 +36,12 @@ export default function PhoneEnter() {
       if (error) throw error;
       navigate({ to: "/auth/verify", search: { phone } });
     } catch (err: any) {
-      setError(err.message || "Не удалось отправить код");
+      // Provide clearer hints for Supabase Phone Auth config
+      const msg = err?.message || "Не удалось отправить код";
+      const hint = msg.includes("disabled") || msg.includes("provider")
+        ? " Проверьте настройку Phone Auth в Supabase (Twilio SID/Auth token, Messaging Service или From номер)."
+        : "";
+      setError(msg + hint);
     } finally {
       setLoading(false);
     }
@@ -55,12 +67,15 @@ export default function PhoneEnter() {
           inputMode="tel"
           autoComplete="tel"
           className="w-full bg-[#fff] border border-[#E5E7EB] rounded-[14px] px-3 py-3 text-base text-[#000] placeholder-[#7A7A7A] caret-[#1E90FF]"
-          placeholder="+998"
+          placeholder="+998901234567"
           value={phone}
-          onChange={(e) => setPhone(e.target.value)}
+          onChange={(e) => setPhone(toE164(e.target.value))}
         />
         <div className="text-center text-[#7A7A7A] text-[12px] mt-2">
           Мы пришлем сообщение с кодом подтверждения
+        </div>
+        <div className="text-center mt-3">
+          <Link to="/auth/login" className="text-[#1E90FF] font-sf text-[14px]">Уже есть аккаунт? Войти</Link>
         </div>
         {error && <div className="text-center text-red-500 text-sm mt-2">{error}</div>}
 
