@@ -9,6 +9,7 @@ const Initiatives = React.lazy(
   () => import("@/pages/integrations/Initiatives")
 );
 const Login = React.lazy(() => import("@/features/auth/LoginForm"));
+const Signup = React.lazy(() => import("@/features/auth/SignupForm"));
 
 const rootRoute = new RootRoute();
 
@@ -78,6 +79,16 @@ const loginRoute = new Route({
   ),
 });
 
+const signupRoute = new Route({
+  getParentRoute: () => loginLayoutRoute,
+  path: "/signup",
+  component: () => (
+    <React.Suspense fallback={<div className="p-6">Загрузка…</div>}>
+      <Signup />
+    </React.Suspense>
+  ),
+});
+
 const routeTree = rootRoute.addChildren([
   adminLayoutRoute.addChildren([
     MainPageRoute,
@@ -85,7 +96,7 @@ const routeTree = rootRoute.addChildren([
     chatbotRoute,
     InitiativesRoute,
   ]),
-  loginLayoutRoute.addChildren([loginRoute]),
+  loginLayoutRoute.addChildren([loginRoute, signupRoute]),
 ]);
 
 export const router = new Router({ routeTree });

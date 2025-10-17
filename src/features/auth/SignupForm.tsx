@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema, LoginValues } from "./schemas";
+import { signupSchema, SignupValues } from "./schemas";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { loginUser } from "./authSlice";
+import { signupUser } from "./authSlice";
 import { useNavigate } from "@tanstack/react-router";
 
 const Input = React.forwardRef<
@@ -32,7 +32,7 @@ const Button: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({
   </button>
 );
 
-export default function LoginForm() {
+export default function SignupForm() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { loading, error, access, refresh } = useAppSelector(
@@ -43,12 +43,12 @@ export default function LoginForm() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginValues>({
-    resolver: zodResolver(loginSchema),
+  } = useForm<SignupValues>({
+    resolver: zodResolver(signupSchema),
   });
 
-  const onSubmit = (values: LoginValues) => {
-    dispatch(loginUser(values));
+  const onSubmit = (values: SignupValues) => {
+    dispatch(signupUser({ email: values.email, password: values.password }));
   };
 
   useEffect(() => {
@@ -64,13 +64,13 @@ export default function LoginForm() {
       onSubmit={handleSubmit(onSubmit)}
       className="w-[400px] mx-auto p-6 bg-surface rounded-2xl shadow-soft space-y-3 fixed top-[30%] left-[37%]"
     >
-      <div className="text-lg font-semibold">Вход</div>
+      <div className="text-lg font-semibold">Регистрация</div>
 
       <div>
         <label className="text-sm text-gray-300">Email</label>
-        <Input placeholder="email@example.com" {...register("username")} />
-        {errors.username && (
-          <p className="text-xs text-red-400 mt-1">{errors.username.message}</p>
+        <Input placeholder="email@example.com" {...register("email")} />
+        {errors.email && (
+          <p className="text-xs text-red-400 mt-1">{errors.email.message}</p>
         )}
       </div>
 
@@ -86,18 +86,30 @@ export default function LoginForm() {
         )}
       </div>
 
+      <div>
+        <label className="text-sm text-gray-300">Подтверждение пароля</label>
+        <Input
+          type="password"
+          placeholder="••••••••"
+          {...register("confirm")}
+        />
+        {errors.confirm && (
+          <p className="text-xs text-red-400 mt-1">{errors.confirm.message}</p>
+        )}
+      </div>
+
       {error && <p className="text-xs text-red-400">{error}</p>}
 
-      <Button disabled={loading}>{loading ? "Входим…" : "Войти"}</Button>
+      <Button disabled={loading}>{loading ? "Регистрируем…" : "Зарегистрироваться"}</Button>
 
       <div className="text-xs text-gray-400 text-center mt-2">
-        Нет аккаунта?{" "}
+        Уже есть аккаунт?{' '}
         <button
           type="button"
           className="underline"
-          onClick={() => navigate({ to: "/signup" })}
+          onClick={() => navigate({ to: "/login" })}
         >
-          Регистрация
+          Войти
         </button>
       </div>
     </form>
