@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "@tanstack/react-router";
 
 const InitiativesCard: React.FC = () => {
   return (
@@ -40,9 +41,12 @@ const InitiativesCard: React.FC = () => {
         <div className="box w-full h-[100px] bg-[#EEE] col-span-6 rounded-[14px]"></div>
         <div className="box w-full h-[100px] bg-[#EEE] rounded-[14px] col-span-6"></div>
         <div className="box w-full h-[100px] bg-[#EEE] rounded-[14px] col-span-6"></div>
-        <button className="h-[45px] text-[#000] font-sf text-[16px] bg-[#EEE] rounded-[14px] col-span-12">
-          Перейти к Иннициативам
-        </button>
+        <Link
+          className="flex items-center justify-center col-span-12 h-[45px] text-[#000] font-sf text-[16px] bg-[#EEE] rounded-[14px]"
+          to="/initiatives"
+        >
+          <button className="">Перейти к Иннициативам</button>
+        </Link>
       </div>
     </div>
   );

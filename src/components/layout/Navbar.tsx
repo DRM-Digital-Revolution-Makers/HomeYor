@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "@tanstack/react-router";
 
 const Navbar: React.FC = () => {
   const navData = [
@@ -119,10 +120,12 @@ const Navbar: React.FC = () => {
       {navData.map((item) => {
         return (
           <div className="flex flex-col items-center min-w-[90px]">
-            <div>{item.icon}</div>
-            <span className="text-[#676767] text-[10px] font-[400] font-sf">
-              {item.name}
-            </span>
+            <Link to={item.href} className="flex flex-col items-center gap-1">
+              <div>{item.icon}</div>
+              <span className="text-[#676767] text-[10px] font-[400] font-sf">
+                {item.name}
+              </span>
+            </Link>
           </div>
         );
       })}

@@ -11,7 +11,7 @@ export default defineConfig({
   },
   server: {
     // Разрешаем подключение с ngrok
-    allowedHosts: ["9d3bf5ed6ce0.ngrok-free.app"],
+    allowedHosts: ["12dcf00ffe93.ngrok-free.app"],
     // Для удобства разработки можно разрешить все хосты
     // allowedHosts: 'all',
   },
