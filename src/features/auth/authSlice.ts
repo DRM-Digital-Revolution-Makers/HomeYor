@@ -1,6 +1,6 @@
+// imports and login thunk
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import { log } from "console";
+import { supabase } from "@/lib/supabaseClient";
 
 type User = { id: string; name: string };
 
@@ -25,13 +25,18 @@ export const loginUser = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const res = await axios.post("https://smai.uz/api/v1/login/", {
-        username,
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: username, // используем username как email
         password,
       });
-      return res.data; // { token, user }
+      if (error) throw error;
+      if (!data.session) throw new Error("Сессия не получена");
+      return {
+        access: data.session.access_token,
+        refresh: data.session.refresh_token,
+      };
     } catch (err: any) {
-      return rejectWithValue(err.response?.data?.message || "Ошибка входа");
+      return rejectWithValue(err.message || "Ошибка входа");
     }
   }
 );

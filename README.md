@@ -1,5 +1,3 @@
-# Smai Admin
-
 ## Quick start
 
 ```bash
