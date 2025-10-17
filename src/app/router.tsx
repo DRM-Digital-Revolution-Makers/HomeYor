@@ -15,9 +15,14 @@ const Notifications = React.lazy(
 const Initiatives = React.lazy(
   () => import("@/pages/integrations/Initiatives")
 );
-const Login = React.lazy(() => import("@/features/auth/LoginForm"));
-const Signup = React.lazy(() => import("@/features/auth/SignupForm"));
-const NotFound = React.lazy(() => import("@/pages/errorPages/404"));
+// New authentication pages (SMS)
+const PhoneEnter = React.lazy(() => import("@/pages/auth/PhoneEnter"));
+const CodeVerify = React.lazy(() => import("@/pages/auth/CodeVerify"));
+const RegisterInfo = React.lazy(() => import("@/pages/auth/RegisterInfo"));
+// Basic authentication (email/password)
+const Login = React.lazy(() => import("@/pages/auth/Login"));
+// Add email-based signup
+const Signup = React.lazy(() => import("@/pages/auth/Signup"));
 
 const rootRoute = new RootRoute();
 
@@ -25,16 +30,6 @@ const adminLayoutRoute = new Route({
   getParentRoute: () => rootRoute,
   id: "admin",
   component: () => <AdminLayout />,
-});
-
-const loginLayoutRoute = new Route({
-  getParentRoute: () => rootRoute,
-  id: "loginLayout",
-  component: () => (
-    <React.Suspense fallback={<div className="p-6">Загрузка…</div>}>
-      <Login />
-    </React.Suspense>
-  ),
 });
 
 const MainPageRoute = new Route({
@@ -77,9 +72,40 @@ const InitiativesRoute = new Route({
   ),
 });
 
+// Authentication routes
+const phoneRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: "/auth/phone",
+  component: () => (
+    <React.Suspense fallback={<div className="p-6">Загрузка…</div>}>
+      <PhoneEnter />
+    </React.Suspense>
+  ),
+});
+
+const verifyRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: "/auth/verify",
+  component: () => (
+    <React.Suspense fallback={<div className="p-6">Загрузка…</div>}>
+      <CodeVerify />
+    </React.Suspense>
+  ),
+});
+
+const registerRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: "/auth/register",
+  component: () => (
+    <React.Suspense fallback={<div className="p-6">Загрузка…</div>}>
+      <RegisterInfo />
+    </React.Suspense>
+  ),
+});
+
 const loginRoute = new Route({
-  getParentRoute: () => loginLayoutRoute,
-  path: "/login",
+  getParentRoute: () => rootRoute,
+  path: "/auth/login",
   component: () => (
     <React.Suspense fallback={<div className="p-6">Загрузка…</div>}>
       <Login />
@@ -87,9 +113,10 @@ const loginRoute = new Route({
   ),
 });
 
+// New route for email signup
 const signupRoute = new Route({
-  getParentRoute: () => loginLayoutRoute,
-  path: "/signup",
+  getParentRoute: () => rootRoute,
+  path: "/auth/signup",
   component: () => (
     <React.Suspense fallback={<div className="p-6">Загрузка…</div>}>
       <Signup />
@@ -113,8 +140,11 @@ const routeTree = rootRoute.addChildren([
     NotificationsRoute,
     InitiativesRoute,
   ]),
-  loginLayoutRoute.addChildren([loginRoute, signupRoute]),
-  notFoundRoute,
+  phoneRoute,
+  verifyRoute,
+  registerRoute,
+  loginRoute,
+  signupRoute,
 ]);
 
 export const router = new Router({ routeTree });

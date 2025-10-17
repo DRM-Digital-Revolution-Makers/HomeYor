@@ -42,7 +42,7 @@ export default function Initiatives() {
         </div>
       </div>
       <div>
-        <InitiativesCard />
+        <InitiativesCard showVoting showLink={false} />
       </div>
     </div>
   );

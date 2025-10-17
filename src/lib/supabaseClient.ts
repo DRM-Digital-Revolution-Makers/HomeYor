@@ -1,12 +1,19 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
-const supabaseUrl = (import.meta.env.VITE_SUPABASE_URL as string) || (import.meta.env.SUPABASE_URL as string);
-const supabaseKey = (import.meta.env.VITE_SUPABASE_ANON_KEY as string) || (import.meta.env.SUPABASE_SERVICE_ROLE_KEY as string);
+// Vite exposes only variables prefixed with VITE_
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string | undefined;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
 
-if (!supabaseUrl || !supabaseKey) {
-  console.warn("[Supabase] Missing SUPABASE_URL or client key (anon/service role)");
+let supabase: SupabaseClient | null = null;
+
+if (supabaseUrl && supabaseAnonKey) {
+  supabase = createClient(supabaseUrl, supabaseAnonKey, {
+    auth: { persistSession: true, autoRefreshToken: true },
+  });
+} else {
+  console.warn(
+    "[Supabase] Missing VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY. UI will work, but Auth actions are disabled."
+  );
 }
 
-export const supabase = createClient(supabaseUrl, supabaseKey, {
-  auth: { persistSession: true, autoRefreshToken: true },
-});
+export { supabase };

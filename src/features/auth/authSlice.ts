@@ -1,4 +1,4 @@
-// imports and login thunk
+// Auth slice with login and signup thunks
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { supabase } from "@/lib/supabaseClient";
 
@@ -26,7 +26,7 @@ export const loginUser = createAsyncThunk(
   ) => {
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
-        email: username, // используем username как email
+        email: username, // treat username as email
         password,
       });
       if (error) throw error;
@@ -95,7 +95,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       })
-      // signup handlers
+      // Signup async thunk handlers
       .addCase(signupUser.pending, (state) => {
         state.loading = true;
         state.error = null;

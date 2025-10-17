@@ -1,5 +1,5 @@
 import * as React from "react";
-export default function LeftArrow(props: React.SVGProps<SVGAElement>) {
+export default function LeftArrow(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -7,6 +7,7 @@ export default function LeftArrow(props: React.SVGProps<SVGAElement>) {
       height="30"
       viewBox="0 0 30 30"
       fill="none"
+      {...props}
     >
       <path
         opacity="0.5"
@@ -16,9 +17,9 @@ export default function LeftArrow(props: React.SVGProps<SVGAElement>) {
       <path
         d="M12.5 7.5L5 15L12.5 22.5"
         stroke="#1E90FF"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
