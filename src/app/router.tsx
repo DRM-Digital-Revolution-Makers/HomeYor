@@ -8,7 +8,10 @@ const Chatbot = React.lazy(() => import("@/pages/chatbot/Chatbot"));
 const Initiatives = React.lazy(
   () => import("@/pages/integrations/Initiatives")
 );
-const Login = React.lazy(() => import("@/features/auth/LoginForm"));
+// Новые страницы аутентификации (SMS)
+const PhoneEnter = React.lazy(() => import("@/pages/auth/PhoneEnter"));
+const CodeVerify = React.lazy(() => import("@/pages/auth/CodeVerify"));
+const RegisterInfo = React.lazy(() => import("@/pages/auth/RegisterInfo"));
 
 const rootRoute = new RootRoute();
 
@@ -16,16 +19,6 @@ const adminLayoutRoute = new Route({
   getParentRoute: () => rootRoute,
   id: "admin",
   component: () => <AdminLayout />,
-});
-
-const loginLayoutRoute = new Route({
-  getParentRoute: () => rootRoute,
-  id: "loginLayout",
-  component: () => (
-    <React.Suspense fallback={<div className="p-6">Загрузка…</div>}>
-      <Login />
-    </React.Suspense>
-  ),
 });
 
 const MainPageRoute = new Route({
@@ -68,12 +61,33 @@ const InitiativesRoute = new Route({
   ),
 });
 
-const loginRoute = new Route({
-  getParentRoute: () => loginLayoutRoute,
-  path: "/login",
+// Новые маршруты аутентификации
+const phoneRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: "/auth/phone",
   component: () => (
     <React.Suspense fallback={<div className="p-6">Загрузка…</div>}>
-      <Login />
+      <PhoneEnter />
+    </React.Suspense>
+  ),
+});
+
+const verifyRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: "/auth/verify",
+  component: () => (
+    <React.Suspense fallback={<div className="p-6">Загрузка…</div>}>
+      <CodeVerify />
+    </React.Suspense>
+  ),
+});
+
+const registerRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: "/auth/register",
+  component: () => (
+    <React.Suspense fallback={<div className="p-6">Загрузка…</div>}>
+      <RegisterInfo />
     </React.Suspense>
   ),
 });
@@ -85,7 +99,9 @@ const routeTree = rootRoute.addChildren([
     chatbotRoute,
     InitiativesRoute,
   ]),
-  loginLayoutRoute.addChildren([loginRoute]),
+  phoneRoute,
+  verifyRoute,
+  registerRoute,
 ]);
 
 export const router = new Router({ routeTree });
