@@ -1,10 +1,17 @@
 import React from "react";
-import { Router, Route, RootRoute } from "@tanstack/react-router";
+import {
+  Router,
+  Route,
+  RootRoute,
+  NotFoundRoute,
+} from "@tanstack/react-router";
 import AdminLayout from "@/components/layout/AdminLayout";
 
 const MainPage = React.lazy(() => import("@/pages/dashboard/MainPage"));
 const Chats = React.lazy(() => import("@/pages/chats/Chats"));
-const Chatbot = React.lazy(() => import("@/pages/chatbot/Chatbot"));
+const Notifications = React.lazy(
+  () => import("@/pages/chatbot/NotificationsPage")
+);
 const Initiatives = React.lazy(
   () => import("@/pages/integrations/Initiatives")
 );
@@ -37,7 +44,7 @@ const MainPageRoute = new Route({
 
 const chatsRoute = new Route({
   getParentRoute: () => adminLayoutRoute,
-  path: "/chats",
+  path: "/chat",
   component: () => (
     <React.Suspense fallback={<div className="p-6">Загрузка…</div>}>
       <Chats />
@@ -45,12 +52,12 @@ const chatsRoute = new Route({
   ),
 });
 
-const chatbotRoute = new Route({
+const NotificationsRoute = new Route({
   getParentRoute: () => adminLayoutRoute,
-  path: "/chatbot",
+  path: "/notifications",
   component: () => (
     <React.Suspense fallback={<div className="p-6">Загрузка…</div>}>
-      <Chatbot />
+      <Notifications />
     </React.Suspense>
   ),
 });
@@ -117,11 +124,20 @@ const signupRoute = new Route({
   ),
 });
 
+const notFoundRoute = new NotFoundRoute({
+  getParentRoute: () => rootRoute,
+  component: () => (
+    <React.Suspense fallback={<div className="p-6">Загрузка...</div>}>
+      <NotFound />
+    </React.Suspense>
+  ),
+});
+
 const routeTree = rootRoute.addChildren([
   adminLayoutRoute.addChildren([
     MainPageRoute,
     chatsRoute,
-    chatbotRoute,
+    NotificationsRoute,
     InitiativesRoute,
   ]),
   phoneRoute,
