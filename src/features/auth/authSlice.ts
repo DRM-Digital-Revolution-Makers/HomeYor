@@ -40,6 +40,29 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
+export const signupUser = createAsyncThunk(
+  "auth/signupUser",
+  async (
+    { email, password }: { email: string; password: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      const { data, error } = await supabase.auth.signUp({ email, password });
+      if (error) throw error;
+      if (!data.session) {
+        return rejectWithValue(
+          "Требуется подтверждение email. Проверьте почту."
+        );
+      }
+      return {
+        access: data.session.access_token,
+        refresh: data.session.refresh_token,
+      };
+    } catch (err: any) {
+      return rejectWithValue(err.message || "Ошибка регистрации");
+    }
+  }
+);
 
 const authSlice = createSlice({
   name: "auth",
@@ -69,6 +92,20 @@ const authSlice = createSlice({
         state.refresh = action.payload.refresh;
       })
       .addCase(loginUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      // signup handlers
+      .addCase(signupUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(signupUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.access = action.payload.access;
+        state.refresh = action.payload.refresh;
+      })
+      .addCase(signupUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });
