@@ -34,8 +34,8 @@ const AdminLayout: React.FC = () => {
       {/* Topbar виден на /chat, скрыт на вложенных путях (/chat/...) */}
       {/* {!hideTopbar && <Topbar />} */}
       <main className={`p-4 lg:p-6 flex flex-col `}>
+        <div className="mt-20"></div>
         <Outlet />
-        {/* Отступ снизу нужен, когда Navbar виден */}
         <div className="mb-20"></div>
       </main>
       {/* Navbar скрыт для всех путей, начинающихся с /chat */}
