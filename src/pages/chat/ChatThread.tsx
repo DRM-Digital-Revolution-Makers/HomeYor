@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { LeftArrow } from "@/assets/icons";
+import { LeftArrow, EmojiSmile, Send, Check } from "@/assets/icons";
 
 type ChatMessage = {
   id: number;
@@ -49,8 +49,8 @@ export default function ChatThread() {
 
   return (
     <div className="min-h-screen bg-[#F2F2F2] flex flex-col">
-      <div className="bg-white">
-        <div className="mx-auto max-w-md ">
+      <div className="bg-white fixed top-0 left-0 right-0 z-20">
+        <div className="mx-auto max-w-md p-4">
           <div className="h-12 flex items-center">
             <button
               aria-label="Назад"
@@ -65,10 +65,6 @@ export default function ChatThread() {
             <div className="w-8" />
           </div>
         </div>
-      </div>
-      -{" "}
-      <div className="mx-auto max-w-md w-full px-4">
-        - <div className="mt-2 mb-2"></div>-{" "}
       </div>
       <div
         ref={listRef}
@@ -102,23 +98,7 @@ export default function ChatThread() {
                   }`}
                 >
                   <span>{msg.time}</span>
-                  {isMe && msg.delivered && (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                    >
-                      <path
-                        d="M20 6L9 17L4 12"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  )}
+                  {isMe && msg.delivered && <Check />}
                 </div>
               </div>
             </div>
@@ -129,29 +109,7 @@ export default function ChatThread() {
         <div className="mx-auto max-w-md px-4 py-3">
           <div className="flex items-center gap-2">
             <button aria-label="Эмодзи" className="p-2 text-[#6b7280]">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="22"
-                height="22"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="9"
-                  stroke="#6b7280"
-                  strokeWidth="1.6"
-                />
-                <circle cx="9" cy="10" r="1" fill="#6b7280" />
-                <circle cx="15" cy="10" r="1" fill="#6b7280" />
-                <path
-                  d="M8 14C9 15.5 10.5 16.25 12 16.25C13.5 16.25 15 15.5 16 14"
-                  stroke="#6b7280"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                />
-              </svg>
+              <EmojiSmile />
             </button>
             <input
               value={input}
@@ -165,20 +123,7 @@ export default function ChatThread() {
               aria-label="Отправить"
               className="p-2 rounded-full bg-[#1E90FF] text-white"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <path
-                  d="M5 12L19 5L16 19L12 14L5 12Z"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              <Send />
             </button>
           </div>
         </div>

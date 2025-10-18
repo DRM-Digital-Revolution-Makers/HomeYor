@@ -8,10 +8,10 @@ import {
 import AdminLayout from "@/components/layout/AdminLayout";
 
 const MainPage = React.lazy(() => import("@/pages/dashboard/MainPage"));
-const Chats = React.lazy(() => import("@/pages/chats/Chats"));
-const ChatThread = React.lazy(() => import("@/pages/chats/ChatThread"));
+const Chats = React.lazy(() => import("@/pages/chat/Chats"));
+const ChatThread = React.lazy(() => import("@/pages/chat/ChatThread"));
 const Notifications = React.lazy(
-  () => import("@/pages/chatbot/NotificationsPage")
+  () => import("@/pages/notifications/NotificationsPage")
 );
 const Initiatives = React.lazy(
   () => import("@/pages/integrations/Initiatives")
@@ -20,7 +20,7 @@ const Initiatives = React.lazy(
 const PhoneEnter = React.lazy(() => import("@/pages/auth/PhoneEnter"));
 const CodeVerify = React.lazy(() => import("@/pages/auth/CodeVerify"));
 const RegisterInfo = React.lazy(() => import("@/pages/auth/RegisterInfo"));
-const NotFound = React.lazy(() => import("@/pages/errorPages/404"));
+const NotFound = React.lazy(() => import("@/pages/errors/404"));
 // Basic authentication (email/password)
 const Login = React.lazy(() => import("@/pages/auth/Login"));
 // Add email-based signup
@@ -136,14 +136,14 @@ const signupRoute = new Route({
 });
 
 // NotFound под админ-лейаут (ловит неизвестные пути внутри /)
-const adminNotFoundRoute = new NotFoundRoute({
-  getParentRoute: () => rootRoute,
-  component: () => (
-    <React.Suspense fallback={<div className="p-6">Загрузка...</div>}>
-      <NotFound />
-    </React.Suspense>
-  ),
-});
+// const adminNotFoundRoute = new NotFoundRoute({
+//   getParentRoute: () => adminLayoutRoute,
+//   component: () => (
+//     <React.Suspense fallback={<div className="p-6">Загрузка...</div>}>
+//       <NotFound />
+//     </React.Suspense>
+//   ),
+// });
 
 // 404 на уровне root (на случай путей вне админ-группы)
 const notFoundRoute = new NotFoundRoute({
@@ -161,8 +161,6 @@ const routeTree = rootRoute.addChildren([
     chatGeneralRoute,
     NotificationsRoute,
     InitiativesRoute,
-    // 404 внутри админ-группы
-    adminNotFoundRoute,
   ]),
   phoneRoute,
   verifyRoute,

@@ -1,2 +1,9 @@
 export { default as LeftArrow } from "./LeftArrow";
 export { default as RightArrow } from "./RightArrow";
+export { default as NavHome } from "./NavHome";
+export { default as NavBell } from "./NavBell";
+export { default as NavChat } from "./NavChat";
+export { default as ChevronRight } from "./ChevronRight";
+export { default as Check } from "./Check";
+export { default as EmojiSmile } from "./EmojiSmile";
+export { default as Send } from "./Send";
