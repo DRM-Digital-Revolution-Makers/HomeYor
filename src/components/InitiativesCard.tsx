@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { supabase } from "@/lib/supabaseClient";
+import { spendTokensOnVote } from "../../services/tokens-services";
 
 type InitiativeItem = {
   id: number;
@@ -54,8 +55,16 @@ const InitiativesCard: React.FC<{ showVoting?: boolean; showLink?: boolean }> = 
     loadInitiatives();
   }, []);
 
-  const handleVote = (id: number, value: "agree" | "disagree") => {
+  const [voteMessage, setVoteMessage] = useState<string | null>(null);
+
+  const handleVote = async (id: number, value: "agree" | "disagree") => {
+    const res = await spendTokensOnVote(id, value === "agree");
+    if (!res.ok) {
+      setVoteMessage(res.message || "Недостаточно токенов");
+      return;
+    }
     setUserVotes((prev) => ({ ...prev, [id]: value }));
+    setVoteMessage("Списан 1 токен за голос");
     // TODO: Persist votes to the server (RPC/insert) once the votes table is ready
   };
 
@@ -102,6 +111,12 @@ const InitiativesCard: React.FC<{ showVoting?: boolean; showLink?: boolean }> = 
         {!loading && !error && items.length === 0 && (
           <div className="col-span-2 text-center py-4 text-[#676767] font-sf">
             Нет активных инициатив
+          </div>
+        )}
+
+        {voteMessage && (
+          <div className="col-span-2 text-center py-2 text-[#1E90FF] font-sf">
+            {voteMessage}
           </div>
         )}
 

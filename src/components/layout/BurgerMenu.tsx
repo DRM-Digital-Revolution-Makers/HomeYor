@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "@tanstack/react-router";
 import {
   LeftArrow,
   RightArrow,
@@ -8,6 +9,7 @@ import {
   SupportIcon,
   InfoIcon,
   LogoutIcon,
+  FilterIcon,
 } from "@/assets/icons";
 import Verified from "../Verified";
 
@@ -50,6 +52,27 @@ const BurgerMenu: React.FC<BurgerMenuProps> = ({ isOpen, onClose }) => {
           </div>
 
           <Verified />
+
+          <div className="min-w-[300px] max-w-md w-full bg-[#fff] rounded-[30px]">
+            <Link to="/tokens" className="p-4 gap-3 flex justify-between items-center">
+              <div className="flex items-center justify-start">
+                <InfoIcon width={24} height={24} />
+                <span className="font-sf font-[500] text-lg text-[#000] px-1">Токены</span>
+              </div>
+              <div className="mr-2 mt-1">
+                <RightArrow />
+              </div>
+            </Link>
+            <Link to="/vote-history" className="p-4 gap-3 flex justify-between items-center">
+              <div className="flex items-center justify-start">
+                <FilterIcon width={24} height={24} />
+                <span className="font-sf font-[500] text-lg text-[#000] px-1">История голосов</span>
+              </div>
+              <div className="mr-2 mt-1">
+                <RightArrow />
+              </div>
+            </Link>
+          </div>
 
           <div className="min-w-[300px] max-w-md w-full">
             <div className="bg-[#fff] p-4 rounded-[30px] gap-3 flex justify-between items-center">
