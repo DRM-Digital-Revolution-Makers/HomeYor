@@ -5,6 +5,8 @@ import VectorLogo from "@/assets/logo/Vector.svg";
 
 export default function Signup() {
   const navigate = useNavigate();
+  const [first, setFirst] = useState("");
+  const [last, setLast] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
@@ -18,6 +20,10 @@ export default function Signup() {
     e.preventDefault();
     setError(null);
     setInfo(null);
+    if (!first.trim() || !last.trim()) {
+      setError("Заполните имя и фамилию");
+      return;
+    }
     if (!isEmail(email)) {
       setError("Введите корректный email");
       return;
@@ -39,7 +45,10 @@ export default function Signup() {
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
-        options: { emailRedirectTo: window.location.origin + "/auth/login" },
+        options: {
+          emailRedirectTo: window.location.origin + "/auth/login",
+          data: { first_name: first.trim(), last_name: last.trim() },
+        },
       });
       if (error) throw error;
       if (data.session) {
@@ -72,6 +81,23 @@ export default function Signup() {
       {/* Content */}
       <form onSubmit={onSubmit} className="flex-1 px-5 pt-24 pb-24 max-w-sm mx-auto w-full" id="signupForm">
         <div className="text-center font-sf text-[20px] font-[600] text-[#000] mb-4">Регистрация по email</div>
+
+        <div className="mb-3">
+          <input
+            className="w-full bg-[#fff] border border-[#E5E7EB] rounded-[14px] px-3 py-3 text-base text-[#000] placeholder-[#7A7A7A] caret-[#1E90FF]"
+            placeholder="Имя"
+            value={first}
+            onChange={(e) => setFirst(e.target.value)}
+          />
+        </div>
+        <div className="mb-3">
+          <input
+            className="w-full bg-[#fff] border border-[#E5E7EB] rounded-[14px] px-3 py-3 text-base text-[#000] placeholder-[#7A7A7A] caret-[#1E90FF]"
+            placeholder="Фамилия"
+            value={last}
+            onChange={(e) => setLast(e.target.value)}
+          />
+        </div>
 
         <input
           type="email"

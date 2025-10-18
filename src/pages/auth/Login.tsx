@@ -13,6 +13,9 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const HACKATHON_EMAIL = import.meta.env.VITE_HACKATHON_EMAIL || "hackathon@testmail.com";
+  const HACKATHON_PASSWORD = import.meta.env.VITE_HACKATHON_PASSWORD || "qwerty123";
+
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -41,6 +44,35 @@ export default function Login() {
       navigate({ to: "/" });
     } catch (err: any) {
       setError(err.message || "Ошибка входа");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loginHackathon = async () => {
+    setError(null);
+    if (!supabase) {
+      setError("Supabase не настроен");
+      return;
+    }
+    setLoading(true);
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: HACKATHON_EMAIL,
+        password: HACKATHON_PASSWORD,
+      });
+      if (error) throw error;
+      if (!data.session) throw new Error("Сессия не получена");
+      dispatch(
+        setCredentials({
+          access: data.session.access_token,
+          refresh: data.session.refresh_token,
+        })
+      );
+      navigate({ to: "/" });
+    } catch (err: any) {
+      const msg = err?.message || "Ошибка входа демо-пользователя";
+      setError(`${msg}. Убедитесь, что VITE_HACKATHON_EMAIL существует в Supabase.`);
     } finally {
       setLoading(false);
     }
@@ -86,11 +118,19 @@ export default function Login() {
         {error && <div className="text-center text-red-500 text-sm mt-2">{error}</div>}
 
         {/* Spacer to avoid overlay by bottom button */}
-        <div className="h-24" />
+        <div className="h-28" />
       </form>
 
       {/* Bottom CTA */}
-      <div className="fixed bottom-0 left-0 right-0 px-5 pb-6">
+      <div className="fixed bottom-0 left-0 right-0 px-5 pb-6 space-y-2">
+        <button
+          type="button"
+          onClick={loginHackathon}
+          disabled={loading}
+          className="w-full bg-[#fff] text-[#1E90FF] border border-[#1E90FF] rounded-[14px] py-3 text-[16px] font-sf disabled:opacity-50"
+        >
+          {loading ? "Подготовка…" : "skip registration for hackathon"}
+        </button>
         <button
           type="submit"
           form="loginForm"

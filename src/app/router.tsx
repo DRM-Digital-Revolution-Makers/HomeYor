@@ -23,6 +23,11 @@ const RegisterInfo = React.lazy(() => import("@/pages/auth/RegisterInfo"));
 const Login = React.lazy(() => import("@/pages/auth/Login"));
 // Add email-based signup
 const Signup = React.lazy(() => import("@/pages/auth/Signup"));
+// Email OTP (passwordless) flow
+const EmailEnter = React.lazy(() => import("@/pages/auth/EmailEnter"));
+const EmailCodeVerify = React.lazy(() => import("@/pages/auth/EmailCodeVerify"));
+// 404 Not Found page
+const NotFound = React.lazy(() => import("@/pages/errorPages/404"));
 
 const rootRoute = new RootRoute();
 
@@ -93,6 +98,27 @@ const verifyRoute = new Route({
   ),
 });
 
+// Email OTP routes
+const emailEnterRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: "/auth/email",
+  component: () => (
+    <React.Suspense fallback={<div className="p-6">Загрузка…</div>}>
+      <EmailEnter />
+    </React.Suspense>
+  ),
+});
+
+const emailVerifyRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: "/auth/email-verify",
+  component: () => (
+    <React.Suspense fallback={<div className="p-6">Загрузка…</div>}>
+      <EmailCodeVerify />
+    </React.Suspense>
+  ),
+});
+
 const registerRoute = new Route({
   getParentRoute: () => rootRoute,
   path: "/auth/register",
@@ -145,6 +171,8 @@ const routeTree = rootRoute.addChildren([
   registerRoute,
   loginRoute,
   signupRoute,
+  emailEnterRoute,
+  emailVerifyRoute,
 ]);
 
 export const router = new Router({ routeTree });
