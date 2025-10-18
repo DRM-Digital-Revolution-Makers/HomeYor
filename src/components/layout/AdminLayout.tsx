@@ -1,15 +1,12 @@
 import React, { useEffect } from "react";
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
-import { Outlet, useNavigate, useRouter } from "@tanstack/react-router";
+import { Outlet, useNavigate } from "@tanstack/react-router";
 import Navbar from "./Navbar";
 import { supabase } from "@/lib/supabaseClient";
 
 const AdminLayout: React.FC = () => {
   const navigate = useNavigate();
-  const router = useRouter();
-  const path = router.state.location.pathname;
-  const isChatPage = path.startsWith("/chat");
 
   useEffect(() => {
     const client = supabase;

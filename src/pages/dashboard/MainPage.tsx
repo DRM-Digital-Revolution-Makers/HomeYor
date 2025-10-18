@@ -39,22 +39,11 @@ export default function MainPage() {
     return () => subscription.unsubscribe();
   }, [navigate]);
 
-  // Скелетон-анимация (animate-pulse) пока данные/сессия не готовы
-  if (!ready)
-    return (
-      <div className="max-w-screen-xl mx-auto px-4 lg:px-6">
-        <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-4 animate-pulse">
-          <div className="h-24 rounded-2xl bg-gray-200 dark:bg-white/10" />
-          <div className="h-24 rounded-2xl bg-gray-200 dark:bg-white/10" />
-          <div className="lg:col-span-2 h-40 rounded-2xl bg-gray-200 dark:bg-white/10" />
-          <div className="lg:col-span-2 h-56 rounded-2xl bg-gray-200 dark:bg-white/10" />
-        </div>
-      </div>
-    );
+  if (!ready) return null;
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 lg:px-6">
-      {/* Topbar убран, рендерится сверху через AdminLayout */}
+      <Topbar />
       <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
         <Verified />
         <Notifications />
