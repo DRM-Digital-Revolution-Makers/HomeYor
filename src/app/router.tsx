@@ -16,6 +16,10 @@ const Notifications = React.lazy(
 const Initiatives = React.lazy(
   () => import("@/pages/integrations/Initiatives")
 );
+const TokensPage = React.lazy(() => import("@/pages/integrations/TokensPage"));
+const VoteHistoryPage = React.lazy(
+  () => import("@/pages/integrations/VoteHistoryPage")
+);
 // New authentication pages (SMS)
 const PhoneEnter = React.lazy(() => import("@/pages/auth/PhoneEnter"));
 const CodeVerify = React.lazy(() => import("@/pages/auth/CodeVerify"));
@@ -83,6 +87,26 @@ const InitiativesRoute = new Route({
   component: () => (
     <React.Suspense fallback={<div className="p-6">Загрузка…</div>}>
       <Initiatives />
+    </React.Suspense>
+  ),
+});
+
+const TokensRoute = new Route({
+  getParentRoute: () => adminLayoutRoute,
+  path: "/tokens",
+  component: () => (
+    <React.Suspense fallback={<div className="p-6">Загрузка…</div>}>
+      <TokensPage />
+    </React.Suspense>
+  ),
+});
+
+const VoteHistoryRoute = new Route({
+  getParentRoute: () => adminLayoutRoute,
+  path: "/vote-history",
+  component: () => (
+    <React.Suspense fallback={<div className="p-6">Загрузка…</div>}>
+      <VoteHistoryPage />
     </React.Suspense>
   ),
 });
@@ -167,6 +191,8 @@ const routeTree = rootRoute.addChildren([
     chatGeneralRoute,
     NotificationsRoute,
     InitiativesRoute,
+    TokensRoute,
+    VoteHistoryRoute,
   ]),
   phoneRoute,
   verifyRoute,

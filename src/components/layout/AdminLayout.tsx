@@ -1,15 +1,12 @@
 import React, { useEffect } from "react";
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
-import { Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
+import { Outlet, useNavigate } from "@tanstack/react-router";
 import Navbar from "./Navbar";
 import { supabase } from "@/lib/supabaseClient";
 
 const AdminLayout: React.FC = () => {
   const navigate = useNavigate();
-  const { location } = useRouterState();
-  const hideTopbar = location.pathname.startsWith("/chat/");
-  const hideNavbar = location.pathname.startsWith("/chat/");
 
   useEffect(() => {
     const client = supabase;
@@ -36,15 +33,13 @@ const AdminLayout: React.FC = () => {
     <div className="min-h-screen bg-background">
       {/* Topbar виден на /chat, скрыт на вложенных путях (/chat/...) */}
       {/* {!hideTopbar && <Topbar />} */}
-      <main
-        className={`p-4 lg:p-6 flex flex-col ${!hideTopbar ? "pt-20" : ""}`}
-      >
+      <main className={`p-4 lg:p-6 flex flex-col `}>
         <Outlet />
         {/* Отступ снизу нужен, когда Navbar виден */}
-        {!hideNavbar && <div className="mb-20"></div>}
+        <div className="mb-20"></div>
       </main>
       {/* Navbar скрыт для всех путей, начинающихся с /chat */}
-      {!hideNavbar && <Navbar />}
+      <Navbar />
     </div>
   );
 };

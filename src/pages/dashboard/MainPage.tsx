@@ -42,7 +42,6 @@ export default function MainPage() {
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 lg:px-6">
-      <Topbar />
       <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
         <Verified />
         <Notifications />
