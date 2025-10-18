@@ -68,9 +68,9 @@ export default function LoginForm() {
 
       <div>
         <label className="text-sm text-gray-300">Email</label>
-        <Input placeholder="email@example.com" {...register("username")} />
-        {errors.username && (
-          <p className="text-xs text-red-400 mt-1">{errors.username.message}</p>
+        <Input placeholder="email@example.com" {...register("email")} />
+        {errors.email && (
+          <p className="text-xs text-red-400 mt-1">{errors.email.message}</p>
         )}
       </div>
 
@@ -91,7 +91,7 @@ export default function LoginForm() {
       <Button disabled={loading}>{loading ? "Входим…" : "Войти"}</Button>
 
       <div className="text-xs text-gray-400 text-center mt-2">
-        Нет аккаунта?{" "}
+        Нет аккаунта? {" "}
         <button
           type="button"
           className="underline"

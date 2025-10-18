@@ -3,7 +3,7 @@ import { LeftArrow } from "@/assets/icons";
 
 type ChatMessage = {
   id: number;
-  author: string; // "me" для исходящих, иначе имя собеседника
+  author: string;
   text: string;
   time: string;
   delivered?: boolean;
@@ -49,8 +49,8 @@ export default function ChatThread() {
 
   return (
     <div className="min-h-screen bg-[#F2F2F2] flex flex-col">
-      <div className="bg-white">
-        <div className="mx-auto max-w-md ">
+      <div className="bg-white fixed top-0 left-0 right-0 z-10">
+        <div className="mx-auto max-w-md px-6 py-2">
           <div className="h-12 flex items-center">
             <button
               aria-label="Назад"

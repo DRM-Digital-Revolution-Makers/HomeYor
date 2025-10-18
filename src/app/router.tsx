@@ -26,9 +26,9 @@ const Login = React.lazy(() => import("@/pages/auth/Login"));
 const Signup = React.lazy(() => import("@/pages/auth/Signup"));
 // Email OTP (passwordless) flow
 const EmailEnter = React.lazy(() => import("@/pages/auth/EmailEnter"));
-const EmailCodeVerify = React.lazy(() => import("@/pages/auth/EmailCodeVerify"));
-// 404 Not Found page
-const NotFound = React.lazy(() => import("@/pages/errorPages/404"));
+const EmailCodeVerify = React.lazy(
+  () => import("@/pages/auth/EmailCodeVerify")
+);
 
 const rootRoute = new RootRoute();
 
@@ -160,25 +160,6 @@ const signupRoute = new Route({
   ),
 });
 
-// NotFound под админ-лейаут (ловит неизвестные пути внутри /)
-// const adminNotFoundRoute = new NotFoundRoute({
-//   getParentRoute: () => adminLayoutRoute,
-//   component: () => (
-//     <React.Suspense fallback={<div className="p-6">Загрузка...</div>}>
-//       <NotFound />
-//     </React.Suspense>
-//   ),
-// });
-
-// 404 на уровне root (на случай путей вне админ-группы)
-const notFoundRoute = new NotFoundRoute({
-  getParentRoute: () => rootRoute,
-  component: () => (
-    <React.Suspense fallback={<div className="p-6">Загрузка...</div>}>
-      <NotFound />
-    </React.Suspense>
-  ),
-});
 const routeTree = rootRoute.addChildren([
   adminLayoutRoute.addChildren([
     MainPageRoute,

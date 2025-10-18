@@ -12,3 +12,4 @@ export { default as HomeIcon } from "./HomeIcon";
 export { default as ChatIcon } from "./ChatIcon";
 export { default as BellIcon } from "./BellIcon";
 export { default as FilterIcon } from "./FilterIcon";
+export { default as TokenIcon } from "./TokenIcon";

@@ -174,7 +174,7 @@ const SpecialistCard: React.FC = () => {
       <div className="grid grid-cols-12 gap-3 mt-4">
         {data.map((item) => {
           return (
-            <div className="w-full text-center col-span-6 md:col-span-4">
+            <div key={item.id} className="w-full text-center col-span-6 md:col-span-4">
               <div className=" flex flex-col justify-center items-center bg-[#EEE] h-[77px] p-3 rounded-[14px]">
                 {item.img}
               </div>

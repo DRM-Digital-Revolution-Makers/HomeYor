@@ -2,8 +2,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { supabase } from "@/lib/supabaseClient";
 
-type User = { id: string; name: string };
-
 type AuthState = {
   access: string | null;
   refresh: string | null;
@@ -21,12 +19,16 @@ const initialState: AuthState = {
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async (
-    { username, password }: { username: string; password: string },
+    { email, password }: { email: string; password: string },
     { rejectWithValue }
   ) => {
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: username, // treat username as email
+      const client = supabase;
+      if (!client) {
+        return rejectWithValue("Supabase не настроен");
+      }
+      const { data, error } = await client.auth.signInWithPassword({
+        email,
         password,
       });
       if (error) throw error;
@@ -47,7 +49,11 @@ export const signupUser = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const { data, error } = await supabase.auth.signUp({ email, password });
+      const client = supabase;
+      if (!client) {
+        return rejectWithValue("Supabase не настроен");
+      }
+      const { data, error } = await client.auth.signUp({ email, password });
       if (error) throw error;
       if (!data.session) {
         return rejectWithValue(

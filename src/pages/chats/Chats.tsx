@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ChatThread from "./ChatThread";
+import Topbar from "@/components/layout/Topbar";
 
 export default function Chats() {
   const [showThread, setShowThread] = useState(false);
@@ -7,6 +8,7 @@ export default function Chats() {
   return (
     <div className="min-h-screen bg-[#F2F2F2]">
       {/* Topbar удалён для страниц чатов */}
+      <Topbar />
 
       <main className="mx-auto max-w-md px-4  pb-10">
         <button
@@ -107,68 +109,7 @@ export default function Chats() {
         </div>
       </main>
 
-      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200">
-        <div className="mx-auto max-w-md">
-          <div className="grid grid-cols-3 gap-2 px-8 py-3 text-center">
-            <button className="flex flex-col items-center gap-1 text-[#6b7280]">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <path
-                  d="M3 10L12 3L21 10V20C21 20.5523 20.5523 21 20 21H4C3.44772 21 3 20.5523 3 20V10Z"
-                  stroke="#6b7280"
-                  strokeWidth="1.6"
-                />
-                <path d="M9 21V12H15V21" stroke="#6b7280" strokeWidth="1.6" />
-              </svg>
-              <span className="text-[12px] font-sf">Главная</span>
-            </button>
-            <button className="flex flex-col items-center gap-1 text-[#6b7280]">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <path
-                  d="M12 22C12 22 20 18 20 11C20 7.13401 16.866 4 13 4H11C7.13401 4 4 7.13401 4 11C4 18 12 22 12 22Z"
-                  stroke="#6b7280"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                />
-                <circle
-                  cx="12"
-                  cy="11"
-                  r="3"
-                  stroke="#6b7280"
-                  strokeWidth="1.6"
-                />
-              </svg>
-              <span className="text-[12px] font-sf">Оповещения</span>
-            </button>
-            <button className="flex flex-col items-center gap-1 text-[#1E90FF]">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <path
-                  d="M4 6C4 4.89543 4.89543 4 6 4H18C19.1046 4 20 4.89543 20 6V14C20 15.1046 19.1046 16 18 16H13L9 20V16H6C4.89543 16 4 15.1046 4 14V6Z"
-                  fill="#1E90FF"
-                />
-              </svg>
-              <span className="text-[12px] font-sf">Сообщения</span>
-            </button>
-          </div>
-        </div>
-      </nav>
+
     </div>
   );
 }
