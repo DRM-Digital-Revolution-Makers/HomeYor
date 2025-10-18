@@ -1,12 +1,15 @@
 import React, { useEffect } from "react";
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
-import { Outlet, useNavigate } from "@tanstack/react-router";
+import { Outlet, useNavigate, useRouter } from "@tanstack/react-router";
 import Navbar from "./Navbar";
 import { supabase } from "@/lib/supabaseClient";
 
 const AdminLayout: React.FC = () => {
   const navigate = useNavigate();
+  // Determine if current route is a chat page to hide Topbar/Navbar
+  const router = useRouter();
+  const isChatPage = router.state.location.pathname.startsWith("/chat");
 
   useEffect(() => {
     const client = supabase;
