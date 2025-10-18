@@ -9,6 +9,7 @@ import AdminLayout from "@/components/layout/AdminLayout";
 
 const MainPage = React.lazy(() => import("@/pages/dashboard/MainPage"));
 const Chats = React.lazy(() => import("@/pages/chats/Chats"));
+const ChatThread = React.lazy(() => import("@/pages/chats/ChatThread"));
 const Notifications = React.lazy(
   () => import("@/pages/chatbot/NotificationsPage")
 );
@@ -19,6 +20,7 @@ const Initiatives = React.lazy(
 const PhoneEnter = React.lazy(() => import("@/pages/auth/PhoneEnter"));
 const CodeVerify = React.lazy(() => import("@/pages/auth/CodeVerify"));
 const RegisterInfo = React.lazy(() => import("@/pages/auth/RegisterInfo"));
+const NotFound = React.lazy(() => import("@/pages/errorPages/404"));
 // Basic authentication (email/password)
 const Login = React.lazy(() => import("@/pages/auth/Login"));
 // Add email-based signup
@@ -52,6 +54,15 @@ const chatsRoute = new Route({
   ),
 });
 
+const chatGeneralRoute = new Route({
+  getParentRoute: () => adminLayoutRoute,
+  path: "/chat/general",
+  component: () => (
+    <React.Suspense fallback={<div className="p-6">Загрузка…</div>}>
+      <ChatThread />
+    </React.Suspense>
+  ),
+});
 const NotificationsRoute = new Route({
   getParentRoute: () => adminLayoutRoute,
   path: "/notifications",
@@ -124,7 +135,8 @@ const signupRoute = new Route({
   ),
 });
 
-const notFoundRoute = new NotFoundRoute({
+// NotFound под админ-лейаут (ловит неизвестные пути внутри /)
+const adminNotFoundRoute = new NotFoundRoute({
   getParentRoute: () => rootRoute,
   component: () => (
     <React.Suspense fallback={<div className="p-6">Загрузка...</div>}>
@@ -133,18 +145,32 @@ const notFoundRoute = new NotFoundRoute({
   ),
 });
 
+// 404 на уровне root (на случай путей вне админ-группы)
+const notFoundRoute = new NotFoundRoute({
+  getParentRoute: () => rootRoute,
+  component: () => (
+    <React.Suspense fallback={<div className="p-6">Загрузка...</div>}>
+      <NotFound />
+    </React.Suspense>
+  ),
+});
 const routeTree = rootRoute.addChildren([
   adminLayoutRoute.addChildren([
     MainPageRoute,
     chatsRoute,
+    chatGeneralRoute,
     NotificationsRoute,
     InitiativesRoute,
+    // 404 внутри админ-группы
+    adminNotFoundRoute,
   ]),
   phoneRoute,
   verifyRoute,
   registerRoute,
   loginRoute,
   signupRoute,
+  // 404 на уровне root (на случай путей вне админ-группы)
+  notFoundRoute,
 ]);
 
 export const router = new Router({ routeTree });

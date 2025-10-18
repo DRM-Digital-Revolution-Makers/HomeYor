@@ -42,6 +42,17 @@ const Verified = () => {
   const verified = Boolean(phone);
   const checkColor = verified ? "#1E90FF" : "#FF6B6B";
 
+  if (loading)
+    return (
+      <div className="bg-white w-full p-4 rounded-[30px] gap-3">
+        <div className="animate-pulse space-y-3">
+          <div className="h-4 w-1/3 rounded-2xl bg-gray-200 dark:bg-white/10" />
+          <div className="h-6 w-2/3 rounded-2xl bg-gray-200 dark:bg-white/10" />
+          <div className="h-8 w-full rounded-2xl bg-gray-200 dark:bg-white/10" />
+        </div>
+      </div>
+    );
+
   return (
     <div className="bg-[#fff] w-full p-4 rounded-[30px] gap-3">
       <div className="flex items-center text-left">

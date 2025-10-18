@@ -85,12 +85,12 @@ const InitiativesCard: React.FC<{ showVoting?: boolean; showLink?: boolean }> = 
       {/* Mobile layout: two columns on small screens */}
       <div className="grid grid-cols-2 gap-3 mt-4">
         {loading && (
-          <>
-            <div className="box w-full h-[100px] bg-[#EEE] rounded-[14px]" />
-            <div className="box w-full h-[100px] bg-[#EEE] rounded-[14px]" />
-            <div className="box w-full h-[100px] bg-[#EEE] rounded-[14px]" />
-            <div className="box w-full h-[100px] bg-[#EEE] rounded-[14px]" />
-          </>
+          <div className="contents animate-pulse">
+            <div className="box w-full h-[100px] rounded-[14px] bg-gray-200 dark:bg-white/10" />
+            <div className="box w-full h-[100px] rounded-[14px] bg-gray-200 dark:bg-white/10" />
+            <div className="box w-full h-[100px] rounded-[14px] bg-gray-200 dark:bg-white/10" />
+            <div className="box w-full h-[100px] rounded-[14px] bg-gray-200 dark:bg-white/10" />
+          </div>
         )}
 
         {!loading && error && (

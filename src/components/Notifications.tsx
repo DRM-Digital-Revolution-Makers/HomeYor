@@ -83,7 +83,11 @@ const Notifications: React.FC = () => {
       <h2 className=" font-sf text-lg text-[#000] font-[510] ">Важные оповещения</h2>
       <div className="text-[#000] bg-[#EEEEEE] w-full p-3 flex flex-col rounded-[30px]">
         {loading ? (
-          <div className="text-[14px]">Загрузка оповещений…</div>
+          <div className="space-y-3 animate-pulse">
+            <div className="h-10 rounded-2xl bg-gray-200 dark:bg-white/10" />
+            <div className="h-10 rounded-2xl bg-gray-200 dark:bg-white/10" />
+            <div className="h-10 rounded-2xl bg-gray-200 dark:bg-white/10" />
+          </div>
         ) : items.length === 0 ? (
           <div className="text-[14px]">Оповещений пока нет</div>
         ) : (
