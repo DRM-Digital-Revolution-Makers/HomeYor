@@ -1,6 +1,6 @@
 import React from "react";
 import InitiativesCard from "@/components/InitiativesCard";
-import { LeftArrow } from "@/assets/icons";
+import { LeftArrow, FilterIcon } from "@/assets/icons";
 
 export default function Initiatives() {
   return (
@@ -13,32 +13,7 @@ export default function Initiatives() {
           Иннициативы
         </h1>
         <div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="30"
-            height="30"
-            viewBox="0 0 30 30"
-            fill="none"
-          >
-            <path
-              d="M25 8.75H5"
-              stroke="black"
-              stroke-width="1.8"
-              stroke-linecap="round"
-            />
-            <path
-              d="M25 15H5"
-              stroke="black"
-              stroke-width="1.8"
-              stroke-linecap="round"
-            />
-            <path
-              d="M25 21.25H5"
-              stroke="black"
-              stroke-width="1.8"
-              stroke-linecap="round"
-            />
-          </svg>
+          <FilterIcon width={30} height={30} />
         </div>
       </div>
       <div>

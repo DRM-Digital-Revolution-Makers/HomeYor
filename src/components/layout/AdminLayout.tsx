@@ -31,11 +31,13 @@ const AdminLayout: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <main className="p-4 lg:p-6 flex flex-col pt-20 ">
+      {/* Topbar только вне страниц чатов */}
+      {!isChatPage && <Topbar />}
+      <main className={`p-4 lg:p-6 flex flex-col ${!isChatPage ? "pt-20" : ""}`}>
         <Outlet />
-        <div className="mb-20"></div>
+        {!isChatPage && <div className="mb-20"></div>}
       </main>
-      <Navbar />
+      {!isChatPage && <Navbar />}
     </div>
   );
 };

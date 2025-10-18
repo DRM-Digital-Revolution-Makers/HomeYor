@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import Verified from "@/components/Verified";
 import InitiativesCard from "@/components/InitiativesCard";
 import SpecialistCard from "@/components/SpecialistCard";
-import Topbar from "@/components/layout/Topbar";
+// Убираю локальный Topbar: он уже рендерится в AdminLayout
+// import Topbar from "@/components/layout/Topbar";
 import Notifications from "@/components/Notifications";
 import { useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/lib/supabaseClient";

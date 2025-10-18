@@ -1,2 +1,14 @@
 export { default as LeftArrow } from "./LeftArrow";
 export { default as RightArrow } from "./RightArrow";
+export { default as HamburgerIcon } from "./HamburgerIcon";
+export { default as LogoIcon } from "./LogoIcon";
+export { default as ShieldIcon } from "./ShieldIcon";
+export { default as DocumentCheckIcon } from "./DocumentCheckIcon";
+export { default as SettingsIcon } from "./SettingsIcon";
+export { default as SupportIcon } from "./SupportIcon";
+export { default as InfoIcon } from "./InfoIcon";
+export { default as LogoutIcon } from "./LogoutIcon";
+export { default as HomeIcon } from "./HomeIcon";
+export { default as ChatIcon } from "./ChatIcon";
+export { default as BellIcon } from "./BellIcon";
+export { default as FilterIcon } from "./FilterIcon";

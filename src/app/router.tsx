@@ -9,6 +9,7 @@ import AdminLayout from "@/components/layout/AdminLayout";
 
 const MainPage = React.lazy(() => import("@/pages/dashboard/MainPage"));
 const Chats = React.lazy(() => import("@/pages/chats/Chats"));
+const ChatThread = React.lazy(() => import("@/pages/chats/ChatThread"));
 const Notifications = React.lazy(
   () => import("@/pages/chatbot/NotificationsPage")
 );
@@ -57,6 +58,15 @@ const chatsRoute = new Route({
   ),
 });
 
+const chatGeneralRoute = new Route({
+  getParentRoute: () => adminLayoutRoute,
+  path: "/chat/general",
+  component: () => (
+    <React.Suspense fallback={<div className="p-6">Загрузка…</div>}>
+      <ChatThread />
+    </React.Suspense>
+  ),
+});
 const NotificationsRoute = new Route({
   getParentRoute: () => adminLayoutRoute,
   path: "/notifications",
@@ -150,6 +160,17 @@ const signupRoute = new Route({
   ),
 });
 
+// NotFound под админ-лейаут (ловит неизвестные пути внутри /)
+// const adminNotFoundRoute = new NotFoundRoute({
+//   getParentRoute: () => adminLayoutRoute,
+//   component: () => (
+//     <React.Suspense fallback={<div className="p-6">Загрузка...</div>}>
+//       <NotFound />
+//     </React.Suspense>
+//   ),
+// });
+
+// 404 на уровне root (на случай путей вне админ-группы)
 const notFoundRoute = new NotFoundRoute({
   getParentRoute: () => rootRoute,
   component: () => (
@@ -158,11 +179,11 @@ const notFoundRoute = new NotFoundRoute({
     </React.Suspense>
   ),
 });
-
 const routeTree = rootRoute.addChildren([
   adminLayoutRoute.addChildren([
     MainPageRoute,
     chatsRoute,
+    chatGeneralRoute,
     NotificationsRoute,
     InitiativesRoute,
   ]),
